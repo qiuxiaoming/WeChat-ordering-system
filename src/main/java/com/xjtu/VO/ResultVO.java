@@ -16,6 +16,6 @@ public class ResultVO<T> {
     //提示信息
     private String msg;
 
-    //具体内容
+    //具体内容（这个泛型的用处）
     private T data;
 }
