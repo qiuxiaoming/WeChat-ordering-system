@@ -17,13 +17,13 @@ public interface OrderService {
     OrderDTO createOrder(OrderDTO orderDTO);
 
     //查询某个订单
-    OrderDTO findOrder(String orderId);
+    OrderDTO findOne(String orderId);
 
     //查询订单列表
     Page<OrderDTO> findList(String buyerOpenid, Pageable pageable);
 
     //取消订单
-    OrderDTO cancal(OrderDTO orderDTO);
+    OrderDTO cancel(OrderDTO orderDTO);
 
     //完结订单
     OrderDTO finish(OrderDTO orderDTO);
