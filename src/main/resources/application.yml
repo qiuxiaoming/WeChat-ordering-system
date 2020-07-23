@@ -14,4 +14,8 @@ server:
 wechat:
   mpAppId: wx5772d32ecf748e4f
   mpAppSecret: 9e645f9ce6ccf4a6969a0d2ffa603d32
-
+  #无效
+  mchId: 1409146202
+  mchKey: c976503d34ca432c601361f969fd8d85
+  keyPath: /var/weixin_cert/h5.p12
+  notifyUrl: http://sellalot.nat300.top/sell/pay/notify

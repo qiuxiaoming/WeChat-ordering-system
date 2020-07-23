@@ -14,6 +14,7 @@ import com.xjtu.exception.SellException;
 import com.xjtu.repository.OrderDetailRepository;
 import com.xjtu.repository.OrderMasterRepository;
 import com.xjtu.service.OrderService;
+import com.xjtu.service.PayService;
 import com.xjtu.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterRepository orderMasterRepository;
+
+    @Autowired
+    private PayService payService;
 
     @Override
     @Transactional
@@ -163,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
 
         //如果已支付，需要退款
         if (orderDTO.getOrderStatus().equals(OrderStatusEnum.FINISHED.getCode())){
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
