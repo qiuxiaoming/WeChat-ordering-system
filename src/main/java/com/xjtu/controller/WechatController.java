@@ -25,20 +25,21 @@ import java.net.URLEncoder;
 public class WechatController {
 
     @Autowired
-    WxMpService wxMpService;
+    private WxMpService wxMpService;
 
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl){
         //1.配置
         //2.调用方法
-        String url = "http://sellalot.nat300.top/sell/wechat/info";
+        String url = "http://sellalot.nat300.top/sell/wechat/userInfo";
         String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl));
+        log.info("【微信网页授权】 获取code,redirectUrl={}",redirectUrl);
         return "redirect:" + redirectUrl;
     }
 
-    @GetMapping("/info")
-    public String uesrInfo(@RequestParam("state") String returnUrl,
-                           @RequestParam("code") String code){
+    @GetMapping("/userInfo")
+    public String uesrInfo(@RequestParam("code") String code,
+                           @RequestParam("state") String returnUrl){
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
 
         try{
