@@ -6,7 +6,7 @@ import lombok.Getter;
  * Created by 10270 on 2020/7/9.
  */
 @Getter
-public enum ProductStatusEnum {
+public enum ProductStatusEnum implements CodeEnum{
     UP(0,"在架"),
     DOWN(1,"下架")
     ;

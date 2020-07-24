@@ -1,6 +1,7 @@
 package com.xjtu.service.impl;
 
 import com.xjtu.dataobject.ProductInfo;
+import com.xjtu.enums.ProductStatusEnum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,15 @@ public class ProductServiceImplTest {
         assertNotNull(result);
     }
 
+    @Test
+    public void onSale() throws Exception{
+        ProductInfo productInfo = service.onSale("123456");
+        assertEquals(ProductStatusEnum.UP.getCode(),productInfo.getProductStatus());
+    }
+
+    @Test
+    public void offSale() throws Exception{
+        ProductInfo productInfo = service.offSale("123456");
+        assertEquals(ProductStatusEnum.DOWN.getCode(),productInfo.getProductStatus());
+    }
 }
