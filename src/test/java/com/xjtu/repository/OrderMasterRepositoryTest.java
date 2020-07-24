@@ -26,15 +26,19 @@ public class OrderMasterRepositoryTest {
      private OrderMasterRepository repository;
     @Test
     public void testSave(){
-        OrderMaster orderMaster = new OrderMaster();
-        orderMaster.setOrderId("15625892");
-        orderMaster.setBuyerName("小红");
-        orderMaster.setBuyerPhone("156212485165");
-        orderMaster.setBuyerAddress("北京");
-        orderMaster.setBuyerOpenid(OPENID);
-        orderMaster.setOrderAmount(new BigDecimal(2.5));
-        OrderMaster  result = repository.save(orderMaster);
-        assertNotNull(result);
+        //for (int i = 0; i<20; i++){
+            OrderMaster orderMaster = new OrderMaster();
+            Integer orderId = 15625892 ;
+            orderMaster.setOrderId(orderId.toString());
+            orderMaster.setBuyerName("小红");
+            orderMaster.setBuyerPhone("156212485165");
+            orderMaster.setBuyerAddress("北京");
+            orderMaster.setBuyerOpenid(OPENID);
+            orderMaster.setOrderAmount(new BigDecimal(2.5));
+            OrderMaster  result = repository.save(orderMaster);
+            assertNotNull(result);
+        //}
+
     }
 
     @Test
