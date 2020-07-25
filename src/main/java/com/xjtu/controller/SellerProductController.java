@@ -1,19 +1,31 @@
 package com.xjtu.controller;
 
+import com.xjtu.dataobject.ProductCategory;
 import com.xjtu.dataobject.ProductInfo;
+import com.xjtu.enums.ResultEnum;
 import com.xjtu.exception.SellException;
+import com.xjtu.form.ProductForm;
+import com.xjtu.service.CategoryService;
 import com.xjtu.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import utils.KeyUtil;
 
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -26,6 +38,9 @@ public class SellerProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 商品列表
@@ -76,6 +91,56 @@ public class SellerProductController {
         }
 
         map.put("url","/sell/seller/product/list");
+        return new ModelAndView("common/success",map);
+
+    }
+
+    @GetMapping("/index")
+    public ModelAndView index(@RequestParam(value = "productId", required = false) String productId,
+                              Map<String,Object> map){
+        if(!StringUtils.isEmpty(productId)){
+            ProductInfo productInfo = productService.findOne(productId);
+            map.put("productInfo",productInfo);
+        }
+        List<ProductCategory> categoryList =categoryService.findAll();
+        map.put("categoryList",categoryList);
+
+        return new ModelAndView("/product/index",map);
+    }
+
+    /**
+     * 商品修改新增
+     * @param productForm
+     * @param bindingResult
+     * @param map
+     * @return
+     */
+    @PostMapping("/save")
+    public ModelAndView save(@Valid ProductForm productForm,
+                             BindingResult bindingResult,
+                             Map<String,Object> map){
+        if(bindingResult.hasErrors()){
+            map.put("msg",bindingResult.getFieldError().getDefaultMessage());
+            map.put("url","/sell/seller/product/index");
+            return  new ModelAndView("common/error",map);
+        }
+        ProductInfo productInfo = new ProductInfo();
+        try{
+            if (!StringUtils.isEmpty(productForm.getProductId())){
+                productInfo = productService.findOne(productForm.getProductId());
+            }else{
+                productForm.setProductId(KeyUtil.getUniqueKey());
+            }
+
+            BeanUtils.copyProperties(productForm,productInfo);
+            productService.save(productInfo);
+        }catch (SellException e){
+            map.put("msg",e.getMessage());
+            map.put("url","/sell/seller/product/index");
+            return  new ModelAndView("common/error",map);
+        }
+
+        map.put("url","/sell/seller/product/index");
         return new ModelAndView("common/success",map);
 
     }
