@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 
 /**
@@ -24,6 +25,10 @@ public class ProductCategory {
     private String categoryName;
 
     private Integer categoryType;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     //不确定需不需要
     public ProductCategory() {

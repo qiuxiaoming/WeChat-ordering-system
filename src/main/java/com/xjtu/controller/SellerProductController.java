@@ -95,6 +95,12 @@ public class SellerProductController {
 
     }
 
+    /**
+     * 商品展示
+     * @param productId
+     * @param map
+     * @return
+     */
     @GetMapping("/index")
     public ModelAndView index(@RequestParam(value = "productId", required = false) String productId,
                               Map<String,Object> map){
