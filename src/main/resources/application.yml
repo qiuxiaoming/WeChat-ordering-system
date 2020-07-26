@@ -32,3 +32,12 @@ projectUrl:
   wechatMpAuthorize: http://sellalot.nat300.top
   wechatOpenAuthorize: http://sellalot.nat300.top
   sell: http://sellalot.nat300.top
+
+
+#mybatis记录其sql语句,开发环境使用，生产环境不使用
+logging:
+  level:
+    com.xjtu.dataobject.mapper: trace
+
+mybatis:
+  mapper-locations: classpath:mapper/*

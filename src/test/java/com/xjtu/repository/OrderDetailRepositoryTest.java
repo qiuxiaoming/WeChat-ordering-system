@@ -1,5 +1,6 @@
 package com.xjtu.repository;
 
+import com.xjtu.SellApplication;
 import com.xjtu.dataobject.OrderDetail;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,7 @@ import static org.junit.Assert.*;
  * Created by 10270 on 2020/7/10.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = SellApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class OrderDetailRepositoryTest {
 
     @Autowired
