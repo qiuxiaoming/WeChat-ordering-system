@@ -13,9 +13,7 @@ import com.xjtu.enums.ResultEnum;
 import com.xjtu.exception.SellException;
 import com.xjtu.repository.OrderDetailRepository;
 import com.xjtu.repository.OrderMasterRepository;
-import com.xjtu.service.OrderService;
-import com.xjtu.service.PayService;
-import com.xjtu.service.ProductService;
+import com.xjtu.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +50,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PayService payService;
+
+    @Autowired
+    private PushMessageService pushMessageService;
+
+    @Autowired
+    private WebSocket webSocket;
 
     @Override
     @Transactional
@@ -102,6 +106,9 @@ public class OrderServiceImpl implements OrderService {
 //                collect(Collectors.toList());
        productService.decreaseStock(cartDTOList);
 
+       //发送websocket消息
+        webSocket.sendMessage(orderDTO.getOrderId());
+
         return orderDTO;
     }
 
@@ -134,6 +141,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO cancel(OrderDTO orderDTO) {
 
         OrderMaster orderMaster = new OrderMaster();
@@ -173,6 +181,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO finish(OrderDTO orderDTO) {
 
         OrderMaster orderMaster = new OrderMaster();
@@ -190,10 +199,15 @@ public class OrderServiceImpl implements OrderService {
             log.error("【完结订单】：更新失败,orderMaster:{}",result);
             throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
         }
+
+        //推送微信模板消息
+        pushMessageService.OrderStatus(orderDTO);
+
         return orderDTO;
     }
 
     @Override
+    @Transactional
     public OrderDTO paid(OrderDTO orderDTO) {
 
         //判断订单状态

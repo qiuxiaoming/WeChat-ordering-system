@@ -8,6 +8,9 @@ spring:
     show-sql: true
   jackson:
     default-property-inclusion: non_null
+  redis:
+    host: 10.181.87.125
+    port: 6379
 server:
   context-path: /sell
 
@@ -15,7 +18,17 @@ wechat:
   mpAppId: wx5772d32ecf748e4f
   mpAppSecret: 9e645f9ce6ccf4a6969a0d2ffa603d32
   #无效
+  openAppId: wx5772d32ecf748e4f
+  openAppSecret: 9e645f9ce6ccf4a6969a0d2ffa603d32
   mchId: 1409146202
   mchKey: c976503d34ca432c601361f969fd8d85
   keyPath: /var/weixin_cert/h5.p12
   notifyUrl: http://sellalot.nat300.top/sell/pay/notify
+  #模板消息配置
+  templateId:
+    orderStatus:
+
+projectUrl:
+  wechatMpAuthorize: http://sellalot.nat300.top
+  wechatOpenAuthorize: http://sellalot.nat300.top
+  sell: http://sellalot.nat300.top

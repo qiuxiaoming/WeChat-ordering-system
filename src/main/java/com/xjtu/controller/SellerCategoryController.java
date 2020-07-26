@@ -58,7 +58,7 @@ public class SellerCategoryController {
     }
 
     /**
-     * 类目修改新增 
+     * 类目修改新增
      * @param categoryForm
      * @param bindingResult
      * @param map
