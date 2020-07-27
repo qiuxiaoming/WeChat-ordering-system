@@ -67,7 +67,7 @@ public class BuyerOrderController {
     public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
                                          @RequestParam(value="page",defaultValue = "0") Integer page,
                                          @RequestParam(value = "size",defaultValue = "10") Integer size){
-        PageRequest pageRequest = new PageRequest(page,size);
+        PageRequest pageRequest = PageRequest.of(page,size);
         Page<OrderDTO> orderDTOPage= orderService.findList(openid,pageRequest);
 
         return ResultVOUtils.success(orderDTOPage.getContent());

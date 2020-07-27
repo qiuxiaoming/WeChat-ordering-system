@@ -39,7 +39,7 @@ public class ProductServiceImplTest {
 
     @Test
     public void findAll() throws Exception {
-        PageRequest pageRequest = new PageRequest(0,2);
+        PageRequest pageRequest = PageRequest.of(0,2);
         Page<ProductInfo> productInfoPage = service.findAll(pageRequest);
         System.out.println(productInfoPage.getTotalElements());
     }

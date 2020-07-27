@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
@@ -39,8 +40,13 @@ public class WechatController {
         //1.配置
         //2.调用方法
         String url = projectUrlConfig.getWechatMpAuthorize() + "/sell/wechat/userInfo";
-        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl));
-        log.info("【微信网页授权】 获取code,redirectUrl={}",redirectUrl);
+        String redirectUrl = null;
+        try{
+            redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl,"UTF-8"));
+        }catch (UnsupportedEncodingException e){
+            log.info("【微信网页授权】 获取code,redirectUrl={}",redirectUrl);
+            e.printStackTrace();
+        }
         return "redirect:" + redirectUrl;
     }
 
@@ -63,7 +69,12 @@ public class WechatController {
     @GetMapping("/qrAuthorize")
     public String qrAuthorize(@RequestParam("returnUrl") String returnUrl){
         String url = projectUrlConfig.getWechatOpenAuthorize() + "/sell/wechat/qruserInfo";
-        String redirectUrl = wxMpService.buildQrConnectUrl(url, WxConsts.QRCONNECT_SCOPE_SNSAPI_LOGIN, URLEncoder.encode(returnUrl));
+        String redirectUrl = null;
+        try{
+            redirectUrl = wxMpService.buildQrConnectUrl(url, WxConsts.QRCONNECT_SCOPE_SNSAPI_LOGIN, URLEncoder.encode(returnUrl,"UTF-8"));
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         return "redirect:" + redirectUrl;
     }
 
