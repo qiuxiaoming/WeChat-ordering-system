@@ -9,6 +9,8 @@ import com.xjtu.service.CategoryService;
 import com.xjtu.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,7 @@ public class BuyerProducterController {
     private ProductService productService;
 
     @GetMapping("/list")
+    @Cacheable(cacheNames = "product",key = "123")
     public ResultVO list(){
         //1.查询所有商家的商品
         List<ProductInfo> productInfoList = productService.findUPAll();
